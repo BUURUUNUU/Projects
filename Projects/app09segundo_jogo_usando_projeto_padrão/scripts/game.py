@@ -3,6 +3,8 @@ from scripts.scene import Scene
 from scripts.animatedbg import AnimatedBg
 from scripts.obj import Obj
 from scripts.settings import *
+import random
+from scripts.text import Text
 
 class Game(Scene):
 
@@ -11,6 +13,10 @@ class Game(Scene):
 
         self.bg = AnimatedBg("assets/menu/bg.png", [0 ,0], [0, -640], [self.all_sprites]) 
         self.spaceship =  SpaceShip("assets/nave/player0.png", [450, 500], [self.all_sprites])
+        
+        self.pts = 0
+        self.score_text = Text("assets/fonts/font_1.ttf", 25, "Score ", "white", [30, 30])
+        self.score_pts = Text("assets/fonts/font_1.ttf", 25, "0", "white", [150, 30])
         
         self.tick = 0
         
@@ -22,7 +28,7 @@ class Game(Scene):
         self.tick += 1
         if self.tick > 60:
             self.tick = 0
-            Enemy("assets/nave/enemy0.png", [self.spaceship.rect.x, -100], [self.all_sprites, self.enemy_colision])
+            Enemy("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
             
             
     def colision(self):
@@ -30,7 +36,19 @@ class Game(Scene):
             for enemy in self.enemy_colision:
                 if shot.rect.colliderect(enemy.rect):
                     shot.kill()
-                    enemy.kill()
+                    enemy.life -= 1
+                    self.pts += 1
+                    self.score_pts.update_text(str(self.pts))
+                    
+        for enemy in self.enemy_colision:
+            if self.spaceship.rect.colliderect(enemy.rect):
+                enemy.kill()         
+                self.spaceship.life -= 1   
+                print(self.spaceship.life)
+
+    def gameover(self):
+        if self.spaceship.life <= 0:
+            self.active = False
         
     def update(self):
         self.colision()
@@ -39,6 +57,9 @@ class Game(Scene):
         self.bg.update()
         self.spaceship.input()
         self.spawn_enemy()
+        self.score_text.draw()
+        self.score_pts.draw()
+        self.gameover()
         return super().update()
     
     
@@ -48,6 +69,8 @@ class SpaceShip(Obj):
         
         self.direction = pygame.math.Vector2()
         self.speed = 5
+        
+        self.life = 3
         
         
         self.shots = pygame.sprite.Group()
@@ -127,12 +150,28 @@ class Enemy(Obj):
     def __init__(self, img, pos, *groups):
         super().__init__(img, pos, *groups)
         
-        self.speed = 5
+        self.speed = random.randint(4, 6)
+        self.life = 3
         
-    def update(self):
         
-        self.rect.y += self.speed
-        
+    def destruction(self):
+        if self.life <= 0:
+            self.kill()
+            
+    def limits(self):
+        self.limits()
         if self.rect.y > HEIGHT + self.image.get_height():
             self.kill()
+            
+            
+    def move(self):
+          self.rect.y += self.speed
+        
+    def update(self):
+        self.move()
+        self.destruction()
+        
+      
+        
+       
             
