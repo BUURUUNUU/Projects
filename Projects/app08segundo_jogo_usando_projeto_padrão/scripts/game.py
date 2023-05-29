@@ -76,6 +76,7 @@ class Game(Scene):
             if self.spaceship.rect.colliderect(enemy.rect):
                 enemy.kill()         
                 self.spaceship.life -= 1   
+                self.spaceship.level = 1
                 print(self.spaceship.life)
                 
         for powerup in self.powerups:
@@ -147,11 +148,24 @@ class SpaceShip(Obj):
                 self.ticks = 0
                 if self.level == 1:
                     Shot("assets/nave/tiro1.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
-                if self.level == 2:
+                elif self.level == 2:
                     Shot("assets/nave/tiro2.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
-                if self.level == 3:
+                elif self.level == 3:
                     Shot("assets/nave/tiro3.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
-            
+                elif self.level == 4:
+                    Shot("assets/nave/tiro1.png", [self.rect.x, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro1.png", [self.rect.x + 100, self.rect.y - 20], [self.shots])
+                elif self.level == 5:
+                    Shot("assets/nave/tiro2.png", [self.rect.x, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro2.png", [self.rect.x + 100, self.rect.y - 20], [self.shots])
+                elif self.level == 6:
+                    Shot("assets/nave/tiro3.png", [self.rect.x, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro3.png", [self.rect.x + 100, self.rect.y - 20], [self.shots])
+                else:
+                    Shot("assets/nave/tiro3.png", [self.rect.x, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro3.png", [self.rect.x + 10, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro3.png", [self.rect.x + 20, self.rect.y - 20], [self.shots])
+                    Shot("assets/nave/tiro3.png", [self.rect.x + 50, self.rect.y - 20], [self.shots])
             
             
     def limit(self):
