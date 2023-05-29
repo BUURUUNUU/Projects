@@ -26,7 +26,7 @@ class Game(Scene):
         self.tick = 0   
         
         self.enemy_colision = pygame.sprite.Group()
-        
+        self.powerups = pygame.sprite.Group()
         
     def hud(self):
         if self.spaceship.life == 2:
@@ -58,6 +58,8 @@ class Game(Scene):
             SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
             SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
             
+            PowerUp("assets/nave/powerup0.png",[random. randint(100, 1180), -100], [self.all_sprites, self.powerups])
+            
             self.tick = 0
             
             
@@ -75,6 +77,11 @@ class Game(Scene):
                 enemy.kill()         
                 self.spaceship.life -= 1   
                 print(self.spaceship.life)
+                
+        for powerup in self.powerups:
+            if self.spaceship.rect.colliderect(powerup.rect):
+                powerup.kill()
+                self.spaceship.level += 1
 
     def gameover(self):
         if self.spaceship.life <= 0:
@@ -100,6 +107,7 @@ class SpaceShip(Obj):
         
         self.direction = pygame.math.Vector2()
         self.speed = 5
+        self.level = 1
         
         self.life = 3
         
@@ -137,7 +145,14 @@ class SpaceShip(Obj):
             self.ticks += 1
             if self.ticks > 30:
                 self.ticks = 0
-                Shot("assets/nave/tiro.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
+                if self.level == 1:
+                    Shot("assets/nave/tiro1.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
+                if self.level == 2:
+                    Shot("assets/nave/tiro2.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
+                if self.level == 3:
+                    Shot("assets/nave/tiro3.png", [self.rect.x + 52, self.rect.y - 20], [self.shots])
+            
+            
             
     def limit(self):
         if self.rect.x < 0:
@@ -181,8 +196,8 @@ class Enemy(Obj):
     def __init__(self, img, pos, *groups):
         super().__init__(img, pos, *groups)
         
-        self.speed = 0
-        self.life = 0
+        self.speed = 1
+        self.life = 1
         
         
     def destruction(self):
@@ -235,8 +250,17 @@ class BigShip(Enemy):
         self.life = 10
         
     def update(self):
-        self.animation(8, 1, "assets/nave/enemy3_")
+        self.animation(16, 1, "assets/nave/enemy3_")
         
         return super().update()
     
     
+class PowerUp(Enemy):
+    def __init__(self, img, pos, *groups):
+        super().__init__(img, pos, *groups)
+        
+        self.speed = 2
+        
+    def update(self):
+        self.animation(16, 3, "assets/nave/powerup")
+        return super().update()
