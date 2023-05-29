@@ -1,3 +1,6 @@
 #configurações Gerais
 WIDTH = 1024
 HEIGHT = 640
+
+PRIMARY_COLOR = [255, 255, 255]
+SECONDARY_COLOR = [51, 51, 51]

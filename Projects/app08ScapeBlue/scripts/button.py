@@ -1,5 +1,6 @@
 import pygame
 from scripts.text import Text
+from scripts.settings import *
 class Button():
     def __init__(self, color, x, y, text):
         
@@ -9,11 +10,13 @@ class Button():
         
         
         self.text = text
+        self.text_color = SECONDARY_COLOR 
+        self.text_position = [(x + self.rect.width / 2),(y + self.rect.height /2 )]
         
-        self.render = Text("assets/fonts/airstrike.ttf", 40, self.text, "black", [x, y])
+        self.render = Text("assets/fonts/airstrike.ttf", 40, self.text, self.text_color, self.text_position)
         
         
         
     def draw(self):
         pygame.draw.rect(self.display, self.color, self.rect)
-        self.render.draw()
+        self.render.draw_center()
