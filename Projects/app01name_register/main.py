@@ -56,7 +56,7 @@ while True:
         
         
         
-        if NAME == "bdev" and PASSWORD == '123':
+        if NAME == "admin" and PASSWORD == '123':
             exec(open('main2.py').read())
             
             
