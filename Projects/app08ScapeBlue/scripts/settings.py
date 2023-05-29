@@ -1,3 +1,3 @@
 #configurações Gerais
-WIDTH = 1280
-HEIGHT = 720
+WIDTH = 1024
+HEIGHT = 640
