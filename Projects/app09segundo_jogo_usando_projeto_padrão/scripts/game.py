@@ -18,17 +18,47 @@ class Game(Scene):
         self.score_text = Text("assets/fonts/font_1.ttf", 25, "Score ", "white", [30, 30])
         self.score_pts = Text("assets/fonts/font_1.ttf", 25, "0", "white", [150, 30])
         
-        self.tick = 0
+        self.life1 = Obj("assets/nave/vida.png", [30, 60], [self.all_sprites])
+        self.life2 = Obj("assets/nave/vida.png", [70, 60], [self.all_sprites])
+        self.life3 = Obj("assets/nave/vida.png", [110, 60], [self.all_sprites])
+        
+        
+        self.tick = 0   
         
         self.enemy_colision = pygame.sprite.Group()
+        
+        
+    def hud(self):
+        if self.spaceship.life == 2:
+            self.life3.kill()
+        elif self.spaceship.life ==1:
+            self.life2.kill()
+        elif self.spaceship.life == 0:
+            self.life1.kill()
+        
+        
+        
+        
         
         
         
     def spawn_enemy(self):
         self.tick += 1
-        if self.tick > 60:
+        if self.tick == 60:
+
+            BigShip("assets/nave/enemy3_0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+        elif self.tick ==180:
+            
+            MediumShip("assets/nave/enemy2_0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+            MediumShip("assets/nave/enemy2_0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+        elif self.tick ==270:
+            
+            SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+            SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+            SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+            SmallShip("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
+            
             self.tick = 0
-            Enemy("assets/nave/enemy0.png", [random. randint(100, 1180), -100], [self.all_sprites, self.enemy_colision])
             
             
     def colision(self):
@@ -60,6 +90,7 @@ class Game(Scene):
         self.score_text.draw()
         self.score_pts.draw()
         self.gameover()
+        self.hud()
         return super().update()
     
     
@@ -150,8 +181,8 @@ class Enemy(Obj):
     def __init__(self, img, pos, *groups):
         super().__init__(img, pos, *groups)
         
-        self.speed = random.randint(4, 6)
-        self.life = 3
+        self.speed = 0
+        self.life = 0
         
         
     def destruction(self):
@@ -171,7 +202,41 @@ class Enemy(Obj):
         self.move()
         self.destruction()
         
-      
         
-       
+class SmallShip(Enemy):
+    def __init__(self, img, pos, *groups):
+        super().__init__(img, pos, *groups)
+        
+        self.speed = 6
+        self.life = 1
+        
+    def update(self):
+        self.animation(8, 3, "assets/nave/enemy")
+        return super().update()
+      
+      
+class MediumShip(Enemy):
+    def __init__(self, img, pos, *groups):
+        super().__init__(img, pos, *groups)
+        
+        self.speed = 4
+        self.life= 2
             
+    def update(self):
+        self.animation(8, 1, "assets/nave/enemy2_")
+        return super().update()
+    
+    
+class BigShip(Enemy):
+    def __init__(self, img, pos, *groups):
+        super().__init__(img, pos, *groups)
+        
+        self.speed =1
+        self.life = 10
+        
+    def update(self):
+        self.animation(8, 1, "assets/nave/enemy3_")
+        
+        return super().update()
+    
+    

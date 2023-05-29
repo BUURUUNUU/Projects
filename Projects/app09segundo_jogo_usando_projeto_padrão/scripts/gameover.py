@@ -27,3 +27,6 @@ class GameOver(Scene):
         self.title.drawFade()
        
         return super().update()
+    
+
+        
