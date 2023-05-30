@@ -15,8 +15,14 @@ class Button():
         
         self.render = Text("assets/fonts/airstrike.ttf", 40, self.text, self.text_color, self.text_position)
         
-        
-        
+    def events(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            if self.rect.collidepoint(event.pos):
+                self.color  = SECONDARY_COLOR
+                self.render.update_text(self.text, PRIMARY_COLOR)
+            else:
+                self.color = PRIMARY_COLOR
+                self.render.update_text(self.text, SECONDARY_COLOR)
     def draw(self):
         pygame.draw.rect(self.display, self.color, self.rect)
         self.render.draw_center()

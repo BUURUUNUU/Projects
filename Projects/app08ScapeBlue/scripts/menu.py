@@ -19,6 +19,10 @@ class Menu(Scene):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self.active = False
+                
+                
+        self.btn_play.events(event)
+        self.btn_quit.events(event)
         return super().events(event)
 
     def update(self):

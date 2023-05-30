@@ -23,7 +23,7 @@ class Text:
         self.display.blit(self.text, self.text_rect)
         
     
-    def update_text(self, text):
+    def update_text(self, text, color):
         self.text = self.font.render(text, True,self.color).convert_alpha()
 
     def drawFade(self):
