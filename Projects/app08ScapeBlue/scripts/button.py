@@ -23,6 +23,13 @@ class Button():
             else:
                 self.color = PRIMARY_COLOR
                 self.render.update_text(self.text, SECONDARY_COLOR)
+    
+        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and self.rect.collidepoint(event.pos):
+                print("game")
+
+            
     def draw(self):
         pygame.draw.rect(self.display, self.color, self.rect)
         self.render.draw_center()
