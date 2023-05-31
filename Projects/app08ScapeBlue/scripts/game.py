@@ -14,7 +14,7 @@ class Game:
     def __init__(self):
         self.active = True
         self.stage = 0
-        self.maps = [MAP0, MAP1, MAP2]#, MAP3, MAP4, MAP5, MAP6, MAP7, MAP8, MAP9, MAP10, MAP11, MAP12]
+        self.maps = [MAP0, MAP1, MAP2, MAP3, MAP4, MAP5]#, MAP6, MAP7, MAP8, MAP9, MAP10, MAP11, MAP12]
         self.current_level = Level(self.maps[self.stage])
         
     def events(self, event):
