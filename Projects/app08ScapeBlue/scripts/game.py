@@ -7,6 +7,8 @@ from scripts.settings import *
 from scripts.text import Text
 from scripts.player import Player
 from scripts.fade import Fade
+
+
 class Game:
 
     def __init__(self):

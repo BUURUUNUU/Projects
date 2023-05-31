@@ -12,7 +12,7 @@ class Menu(Scene):
         super().__init__()
         
         self.bg = AnimatedBg("assets/menu/bg.png", [0, 0], [0, -HEIGHT], [self.all_sprites])
-        self.title = Obj("assets/menu/title.png", [340, 200], self.all_sprites)
+        self.title = Obj("assets/menu/title.png", [200, 200], self.all_sprites)
 
         self.btn_play = Button("white", 64, 400, "Play", self.next_scene)
         self.btn_quit = Button("white", 64, 500, "Quit", self.quit_game)
