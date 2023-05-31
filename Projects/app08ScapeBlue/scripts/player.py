@@ -49,6 +49,11 @@ class Player(pygame.sprite.Sprite):
                     self.direction.y = 0
                     self.rect.bottom = sprite.rect.top
                     self.on_ground = True
+                    
+                if self.direction.y < 0:
+                    self.direction.y = 0
+                    self.rect.top = sprite.rect.bottom
+                
         
         
     def x_colision(self):
