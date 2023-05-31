@@ -40,7 +40,7 @@ class StartGame:
                 self.current_scene.events(event)
             
             self.fps.tick(60)
-            self.display.fill("black")
+            self.display.fill(BG_COLOR)
             self.current_scene.draw()
             self.current_scene.update()
             pygame.display.flip()
