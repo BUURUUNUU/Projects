@@ -7,18 +7,19 @@ from scripts.settings import *
 from scripts.text import Text
 from scripts.player import Player
 from scripts.fade import Fade
-
+from scripts.camera import Camera
 
 class Game:
 
     def __init__(self):
        
         self.display = pygame.display.get_surface()
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = Camera()
         self.colision_sprites = pygame.sprite.Group()
         self.active = True
 
         self.fade = Fade(5)
+        self.finish = Obj("assets/player/finish.png", [0, 0], self.all_sprites)
        
        
         
@@ -26,6 +27,8 @@ class Game:
         self.player = Player([0, 0], [self.all_sprites], self.colision_sprites)
         
         self.generate_map()
+        
+        self.hud_ui = Ui()
        
         
     def generate_map(self):
@@ -36,16 +39,67 @@ class Game:
                 
                 if col == "x":
                     Obj("assets/player/tile.png", [x, y], [self.all_sprites, self.colision_sprites])
-                
+                elif col == "c":
+                    self.finish.rect.x = x
+                    self.finish.rect.y = y
                 
     def events(self, event):
         pass
+    
+    
+    def next_stage(self):
+         if self.player.rect.colliderect(self.finish.rect):
+            self.active = False
+            
+    def reset_position(self):
+        if self.player.rect.y > HEIGHT:
+            self.player.rect.x = 0
+            self.player.rect.y = 0
+            self.hud_ui.lifes -= 1
+            
+        if self.hud_ui.lifes <= 0:
+            self.active = False
                 
     def draw(self):
-        self.all_sprites.draw(self.display)
+        self.all_sprites.costume_draw(self.player)
+        self.hud_ui.draw()
+        self.fade.draw()
             
                 
     def update(self):
         self.all_sprites.update()
+        self.next_stage()
+        self.reset_position()
+        self.hud_ui.update()
+        
+        
+       
+        
+        
+class Ui:
+    def __init__(self):
+        self.display = pygame.display.get_surface()
+        self.ui_group = pygame.sprite.Group()
+        
+        self.hud1 = Obj("assets/player/idle_0.png", [0, 10], [self.ui_group])
+        self.hud2 = Obj("assets/player/idle_0.png", [74, 10], [self.ui_group])
+        self.hud3 = Obj("assets/player/idle_0.png", [144, 10], [self.ui_group])
+        
+        self.lifes = 3
+        
+    def count_lifes(self):
+        if self.lifes == 2:
+            self.hud3.kill()
+        elif self.lifes == 1:
+            self.hud2.kill()
+        elif self.lifes == 0:
+            self.hud1.kill()
+            
+        
+    def draw(self):
+        self.ui_group.draw(self.display)
 
+
+    def update(self):
+        self.count_lifes()
 

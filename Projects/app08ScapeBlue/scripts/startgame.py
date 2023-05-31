@@ -11,7 +11,7 @@ class StartGame:
         pygame.init()
         pygame.mixer.init()
         pygame.font.init()
-        pygame.display.set_caption("Name project")
+        pygame.display.set_caption("Geladeira Tissunami")
         
         self.display = pygame.display.set_mode([WIDTH,HEIGHT])
         self.scene = "menu"
