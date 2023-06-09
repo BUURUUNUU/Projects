@@ -1,6 +1,9 @@
 from flask import Flask, render_template
 
 
+#comando iniciar server -> flask run --debug
+
+
 #comando inicial: set FLASK_APP = app.py
 
 #cria o aplicativo
@@ -12,4 +15,13 @@ app = Flask(__name__)
 @app.route('/')
 #cria função definida na rota
 def principal():
-    return render_template("index.html")
+    nome = "Fulano"
+    idade = 25
+    
+    return render_template("index.html", nome = nome, idade=idade)
+
+#nova rota
+@app.route('/sobre')
+
+def sobre():
+        return render_template("sobre.html")
